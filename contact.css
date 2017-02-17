@@ -1,0 +1,12 @@
+﻿body {
+}
+
+#loading-indicator {
+    margin-bottom: 20px;
+    color: grey;
+    display: none;
+}
+
+    #loading-indicator img {
+    margin-right: 20px;
+    }
