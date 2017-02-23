@@ -17,17 +17,18 @@ $alertClasses = array(
     "danger" => "alert alert-danger"
     );
 
-$mailTo = "toth.emese888@gmail.com";
 
 $data = json_decode($_POST["data"], true);
 extract($data);
 $header = "From: ".$email;
 
+$mailTo = $email; // publikus kódban saját magának küldi
+
 // AJAX response json formátumban
 // ha a validálás sikeres, megpróbál emailt küldeni, megfelelő visszajelzést küld vissza, amit a UI kezel
 
 if (validateEmail($email) && validateText($subject) && validateText($message)) {
-    sleep(2); // server is too fast, loading indicator disappears immediately without sleep :)
+    sleep(2); // túl gyors a szerver, nem látszik a loading indicator
     if (mail($mailTo, $subject, $message, $header)) {
         $alert = array("text" => $alertComponents["success"], "class" => $alertClasses["success"]);
     }
