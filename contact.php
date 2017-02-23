@@ -1,8 +1,8 @@
 <?php
- if ($_SERVER["REQUEST_METHOD"] != "POST"){
-    die("invalid REQUEST_METHOD");
- }
+// ne lehessen kívülről hívni, de a tesztelést megakasztja
+if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {   
 
+// lehetséges szerver oldali hibaüzenetek
 $alert = "";
 $alertComponents = array(
     "success" => "Your message was successfully sent.",
@@ -24,6 +24,8 @@ extract($data);
 $header = "From: ".$email;
 
 // AJAX response json formátumban
+// ha a validálás sikeres, megpróbál emailt küldeni, megfelelő visszajelzést küld vissza, amit a UI kezel
+
 if (validateEmail($email) && validateText($subject) && validateText($message)) {
     sleep(2); // server is too fast, loading indicator disappears immediately without sleep :)
     if (mail($mailTo, $subject, $message, $header)) {
@@ -34,32 +36,29 @@ if (validateEmail($email) && validateText($subject) && validateText($message)) {
         $alert = array("text" => $alertComponents["failed"], "class" => $alertClasses["danger"]);
     }
 }
+
+// ha a szerver oldali validálás hibát talál, megfelelő hibaüzenetet küld vissza, amit a UI kezel
 else
 {
     $alertText = $alertComponents["validation"];
-    if (!validateEmail($_POST["email"]))
+    if (!validateEmail($email))
         $alertText = $alert.$alertComponents["email"];
 
-    if (!validateText($_POST["subject"]))
+    if (!validateText($subject))
         $alertText = $alert.$alertComponents["subject"];
 
-    if (!validateText($_POST["message"]))
+    if (!validateText($message))
         $alertText = $alert.$alertComponents["message"];
 
     $alert = array("text" => $alertText, "class" => $alertClasses["danger"]);
 }
 
 echo json_encode($alert);
-
+}
 
 function validateEmail($email)
 {
-    $matches = array();
-    $pattern = "/(.+)@(.)/";
-
-    preg_match($pattern, $email, $matches);
-
-    return ($matches) ? true : false;
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 function validateText($text)

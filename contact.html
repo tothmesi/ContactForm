@@ -17,14 +17,13 @@
     <div class="container">
         <form action="contact.php" method="post">
             <h1>Get in touch!</h1>
-            
             <p id="alert-container"></p>
             <div id="loading-indicator"><img src="loading.gif" style="width: 25px; height: 25px" />Sending e-mail, please wait...</div>
 
             <fieldset class="form-group">
                 <label for="email">E-mail address</label>
                 <div >
-                    <input type="email" name="email" class="form-control" placeholder="Enter e-mail"/>
+                    <input id ="email" type="email" name="email" class="form-control" placeholder="Enter e-mail"/>
                     <p class="text-muted"><small>We'll never share your e-mail with anyone else.</small></p>
                 </div>
             </fieldset>
@@ -32,14 +31,14 @@
             <fieldset class="form-group">
                 <label>Subject</label>
                 <div>
-                    <input type="text" name="subject" class="form-control" placeholder="Enter subject" />
+                    <input id="subject" type="text" name="subject" class="form-control" placeholder="Enter subject" />
                 </div>
             </fieldset>
 
             <fieldset class="form-group">
                 <label>What would you like to ask us?</label>
                 <div>
-                    <textarea type="text" name="message" class="form-control">
+                    <textarea id="message" type="text" name="message" class="form-control">
 
                     </textarea>
                 </div>
@@ -50,9 +49,7 @@
                     <input type="button" id="submit-email-btn" class="btn btn-primary" value="Submit" />
                 </div>
             </fieldset>
-
         </form>
-
     </div>
 </body>
 </html>
